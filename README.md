@@ -75,6 +75,15 @@ Finally, we can run our R script using instruction
 Rscript mnist.R
 ```
 
+Below you can see fitting process in progress - it takes around `3.7s` to perform one epoch (60 000 steps).
+
+![cntk_R_console.PNG](https://bitbucket.org/repo/9p8AR8q/images/3204642580-cntk_R_console.PNG)
+
+And here we present output of `nvidia-smi` taken during the fitting process
+
+![cntk_R_nvidia_smi.PNG](https://bitbucket.org/repo/9p8AR8q/images/1436901915-cntk_R_nvidia_smi.PNG)
+
+
 It takes around 23 seconds to build an MLP network and score it on test dataset. It reported 
 `2.3%` classification error, which is not bad but it was not most important for this showcase.
 

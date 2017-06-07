@@ -1,4 +1,4 @@
-# Showcase: calling [Microsoft Cognitive Toolkit (CNTK) 2.0](https://github.com/Microsoft/CNTK) deeplearning library fromwithin R using [reticulate](https://github.com/rstudio/reticulate) package and [Azure DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview). #
+# Showcase: calling [Microsoft Cognitive Toolkit (CNTK) 2.0](https://github.com/Microsoft/CNTK) deep learning library fromwithin R using [reticulate](https://github.com/rstudio/reticulate) package and [Azure DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview). #
 
 ## Introduction ##
 

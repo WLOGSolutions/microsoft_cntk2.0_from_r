@@ -92,6 +92,8 @@ It takes around 23 seconds to build an MLP network and score it on test dataset.
 In script `mnist.R` in line 45 I set default device to be used. By default it is `gpu(0L)` which means Tesla M60 GPU. When you 
 switch to `cpu()` you will notice around **32x** slowdown!
 
+Even more performance gain you can see calling `mnist_conv.R` script that implements Convolution Network that is more computing intensive. Running this model on CPU is hopeless. 
+
 # Conclusion #
 
 I have been using R for large scale analytical solutions for 12 years. It is a great analytics oriented glue-language. I gives me 

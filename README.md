@@ -77,11 +77,11 @@ Rscript mnist.R
 
 Below you can see fitting process in progress - it takes around `3.7s` to perform one epoch (60 000 steps).
 
-![cntk_R_console.PNG](https://bitbucket.org/repo/9p8AR8q/images/3204642580-cntk_R_console.PNG)
+![cntk_R_console.PNG](https://github.com/WLOGSolutions/microsoft_cntk2.0_from_r/blob/master/img/cntkr_R_console.PNG)
 
 And here we present output of `nvidia-smi` taken during the fitting process
 
-![cntk_R_nvidia_smi.PNG](https://bitbucket.org/repo/9p8AR8q/images/1436901915-cntk_R_nvidia_smi.PNG)
+![cntk_R_nvidia_smi.PNG](https://github.com/WLOGSolutions/microsoft_cntk2.0_from_r/blob/master/img/cntkr_nvidia_smi.PNG)
 
 
 It takes around 23 seconds to build an MLP network and score it on test dataset. It reported 

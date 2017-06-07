@@ -1,4 +1,4 @@
-# Showcase: calling [Microsoft Cognitive Toolkit (CNTK)](https://github.com/Microsoft/CNTK) deeplearning library fromwithin R using [reticulate](https://github.com/rstudio/reticulate) package. #
+# Showcase: calling [Microsoft Cognitive Toolkit (CNTK) 2.0](https://github.com/Microsoft/CNTK) deeplearning library fromwithin R using [reticulate](https://github.com/rstudio/reticulate) package and [Azure DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview). #
 
 ## Introduction ##
 
@@ -69,20 +69,11 @@ my_python <- "~/.conda/envs/cntk2.0/bin"
 
 This path should work for you if you are following my post using Azure DSVM.
 
-
 Finally, we can run our R script using instruction
 
 ```sh
 Rscript mnist.R
 ```
-Below you can see fitting process in progress - it takes around `3.7s` to perform one epoch (60 000 steps).
-
-![cntk_R_console.PNG](https://bitbucket.org/repo/9p8AR8q/images/3204642580-cntk_R_console.PNG)
-
-And here we present output of `nvidia-smi` taken during the fitting process
-
-![cntk_R_nvidia_smi.PNG](https://bitbucket.org/repo/9p8AR8q/images/1436901915-cntk_R_nvidia_smi.PNG)
-
 
 It takes around 23 seconds to build an MLP network and score it on test dataset. It reported 
 `2.3%` classification error, which is not bad but it was not most important for this showcase.

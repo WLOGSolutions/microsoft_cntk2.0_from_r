@@ -4,7 +4,7 @@ library(magrittr)
 library(purrr)
 library(reticulate)
 
-#Change to your Python installation path
+                                        #Change to your Python installation path
 my_python <- "~/.conda/envs/cntk2.0/bin"
 
 reticulate::use_python(my_python, required = FALSE)
@@ -51,11 +51,11 @@ conv_mnist <- function(cntk, train_path, test_path, work_path, debug_output=FALS
     input_dim <- image_width * image_height * num_channels
     num_output_classes <- 10L
 
-    # Input variables denoting the features and label data
+                                        # Input variables denoting the features and label data
     feature <- cntk$C$input_variable(c(num_channels, image_height, image_width), cntk$np$float32)
     label <- cntk$C$input_variable(num_output_classes, cntk$np$float32)
 
-    # Instantiate the feedforward classification model
+                                        # Instantiate the feedforward classification model
     scaled_input <- cntk$ops$constant(0.00390625) %>%
         cntk$ops$element_times(feature)
 
@@ -78,7 +78,7 @@ conv_mnist <- function(cntk, train_path, test_path, work_path, debug_output=FALS
                                   input_dim = input_dim,
                                   label_dim = num_output_classes)
 
-    # Set learning parameters
+                                        # Set learning parameters
     lr_per_sample    <- 0.001*10 + 0.0005*10 + 0.0001
     lr_schedule      <- cntk$learners$learning_rate_schedule(lr_per_sample, cntk$learners$UnitType$sample, epoch_size)
     mm_time_constant <- 0*5 + 1024
@@ -89,95 +89,85 @@ conv_mnist <- function(cntk, train_path, test_path, work_path, debug_output=FALS
     trainer <- cntk$train$Trainer(z, list(ce, pe), learner, progress_printer)
     
     input_map <- reticulate:::py_dict(
-                                 list(feature, label),
-                                 list(reader_train$streams$features,
-                                      reader_train$streams$labels),
+                                  list(feature, label),
+                                  list(reader_train$streams$features,
+                                       reader_train$streams$labels),
                                   convert = FALSE)
 
     cntk$logging$log_number_of_parameters(z)
 
 
-    # Get minibatches of images to train with and perform model training
+                                        # Get minibatches of images to train with and perform model training
     for (epoch in 1:max_epochs) {       # loop over epochs
         sample_count <- 0
         while (sample_count < epoch_size) {  # loop over minibatches in the epoch
             data <- reader_train$next_minibatch(as.integer(min(minibatch_size, epoch_size - sample_count)),
-                                               input_map=input_map) # fetch minibatch.
+                                                input_map=input_map) # fetch minibatch.
             trainer$train_minibatch(reticulate:::py_dict(
                                                      list(feature, label),
                                                      list(data[[1]], 
                                                           data[[2]]),
-                                        convert = FALSE)) # update model with it
+                                                     convert = FALSE)) # update model with it
             sample_count <- sample_count + data[[1]]$num_samples                     # count samples processed so far               
         }
         trainer$summarize_training_progress()
         z$save(file.path(work_path, sprintf("ConvNet_MNIST_%s.dnn", epoch)))
     }
+
+    # Load test data
+    reader_test <- create_reader(cntk$io,
+                                 path = test_path,
+                                 is_training = FALSE,
+                                 input_dim = input_dim,
+                                 label_dim = num_output_classes)
+
+    input_map <- reticulate:::py_dict(
+                                  list(feature, label),
+                                  list(reader_test$streams$features,
+                                       reader_test$streams$labels),
+                                  convert = FALSE)
     
-    ## minibatch_size <- 64L
-    ## num_samples_per_sweep <- 60000L
-    ## num_sweeps_to_train_with <- 20L
-
-    ## # Instantiate progress writers.
-    ## #training_progress_output_freq = 100
-    ## progress_writers <- list(
-    ##     cntk$logging$ProgressPrinter(
-    ##                                     #freq=training_progress_output_freq,
-    ##                      tag="Training",
-    ##                      num_epochs=num_sweeps_to_train_with))
-
-    ## if (!is.null(tensorboard_logdir)) {
-    ##     progress_writers <- c(progress_writers,
-    ##                           cntk$logging$TensorBoardProgressWriter(freq=10L,
-    ##                                                                  log_dir=tensorboard_logdir,
-    ##                                                                  model=z))
-    ## }
-
-    ## lr <- cntk$learners$learning_rate_schedule(1, cntk$learners$UnitType$sample)
-    ## trainer <- cntk$train$Trainer(z,
-    ##                               list(ce, pe),
-    ##                               cntk$learners$adadelta(z$parameters, lr),
-    ##                               progress_writers)
-
-    ## cntk$training_session$training_session(
-    ##                           trainer = trainer,
-    ##                           mb_source = reader_train,
-    ##                           mb_size = minibatch_size,
-    ##                           model_inputs_to_streams = input_map,
-    ##                           max_samples = num_samples_per_sweep * num_sweeps_to_train_with,
-    ##                           progress_frequency = num_samples_per_sweep
-    ##                       )$train()
-
-    ## reader_test <- create_reader(cntk$io,
-    ##                              path = test_path,
-    ##                              is_training = FALSE,
-    ##                              input_dim = input_dim,
-    ##                              label_dim = num_output_classes)
-
-    ## input_map <- reticulate:::py_dict(
-    ##                              list(feature, label),
-    ##                              list(reader_test$streams$features,
-    ##                                   reader_test$streams$labels),
-    ##                              convert = FALSE)
     ## # Test data for trained model
-    ## test_minibatch_size <- 1024L
-    ## num_samples <- 10000L
-    ## num_minibatches_to_test <- num_samples / test_minibatch_size
-    ## test_result <- 0.0
-    ## for (i in 0:as.integer(num_minibatches_to_test)) {        
-    ##     mb <- reader_test$next_minibatch(test_minibatch_size)
-        
-    ##     eval_error <- trainer$test_minibatch(reticulate:::py_dict(
-    ##                                                          list(feature, label),
-    ##                                                          list(mb[[1]],   
-    ##                                                               mb[[2]]),
-    ##                                                          convert = FALSE))
-    ##     test_result <- test_result + eval_error
-    ## }
+    epoch_size <- 10000L
+    minibatch_size <- 1024
 
-        ## test_result / num_minibatches_to_test
+    # process minibatches and evaluate the model
+    metric_numer <- 0
+    metric_denom <- 0
+    sample_count <- 0
+    minibatch_index <- 0
 
-    NA
+    test_result <- 0.0
+
+    while (sample_count < epoch_size) {
+        current_minibatch <- as.integer(min(minibatch_size, epoch_size - sample_count))
+
+        # Fetch next test min batch.
+        data <- reader_test$next_minibatch(current_minibatch,
+                                            input_map=input_map)
+
+        # minibatch data to be trained with
+        metric_numer <- metric_numer + trainer$test_minibatch(reticulate:::py_dict(
+                                                                               list(feature, label),
+                                                                               list(data[[1]],
+                                                                                    data[[2]]),
+                                                                               convert = FALSE)) * current_minibatch
+        metric_denom <- metric_denom + current_minibatch
+
+        # Keep track of the number of samples processed so far.
+        sample_count <- sample_count + data[[1]]$num_samples
+        minibatch_index <- minibatch_index + 1
+    }
+
+    print("")
+    print(sprintf("Final Results: Minibatch[1-%s]: errs = %0.2f%% * %s",
+                  minibatch_index + 1,
+                  (metric_numer * 100.0) / metric_denom,
+                  metric_denom))
+    print("")
+
+
+    metric_numer / metric_denom
 }
 
 data_path <- "data"

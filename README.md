@@ -62,7 +62,6 @@ In folder `data` you should find two files `Test-28x28_cntk_text.txt` and `Train
 
 Scipt `mnist.R` contains my version of `SimpleMNIST.py`. Before running the script you should modify line 8 to point to your
 python installation. In the version I prepared this line looks like this
-
 ```r
 my_python <- "~/.conda/envs/cntk2.0/bin"
 ```
@@ -75,7 +74,7 @@ Finally, we can run our R script using instruction
 Rscript mnist.R
 ```
 
-Below you can see fitting process in progress - it takes around `3.7s` to perform one epoch (60 000 steps).
+Below you can see fitting process in progress - it takes around `0.7-1.0s` to perform one epoch (60 000 steps).
 
 ![cntk_R_console.PNG](https://github.com/WLOGSolutions/microsoft_cntk2.0_from_r/blob/master/img/cntkr_R_console.PNG)
 
@@ -90,9 +89,14 @@ It takes around 23 seconds to build an MLP network and score it on test dataset.
 ### Power of GPU ###
 
 In script `mnist.R` in line 45 I set default device to be used. By default it is `gpu(0L)` which means Tesla M60 GPU. When you 
-switch to `cpu()` you will notice around **32x** slowdown!
+switch to `cpu()` you will notice around **30x** slowdown!
 
-Even more performance gain you can see calling `mnist_conv.R` script that implements Convolution Network that is more computing intensive. Running this model on CPU is hopeless. 
+Even more performance gain you can see calling `mnist_conv.R` script that implements Convolution Network that is more 
+computing intensive (check [ConvNet_MNIST.py](https://github.com/Microsoft/CNTK/blob/master/Examples/Image/Classification/ConvNet/Python/ConvNet_MNIST.py) for
+Python version). Below we present output of running this model using GPU. It takes around `3.7sec` for one epoch (60 000 steps). 
+**Running this model on CPU is hopeless.**
+
+![cntk_R_console_2.PNG](https://github.com/WLOGSolutions/microsoft_cntk2.0_from_r/blob/master/img/cntkr_R_console_2.PNG)
 
 # Conclusion #
 

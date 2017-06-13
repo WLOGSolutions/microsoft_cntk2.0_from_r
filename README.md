@@ -11,7 +11,7 @@ Unfortunately CNTK does not have bindings to R. Fortunately it has to Python. I 
 to have CNTK available from this great tool. I present shortly R version of [SimpleMNIST.py](https://github.com/Microsoft/CNTK/blob/master/Examples/Image/Classification/MLP/Python/SimpleMNIST.py). This example shows how to apply MLP (infamous) [MNIST](http://yann.lecun.com/exdb/mnist) dataset of handwritten digits.
 
 ## Preparing environment ##
-I was working on [Azure DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview) using [NV6 Instance](https://azure.microsoft.com/en-us/blog/azure-n-series-general-availability-on-december-1/) with Tesla M60 GPU and Ubuntu OS.
+I was working on [Azure DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview) using [NV6 Instance](https://azure.microsoft.com/en-us/blog/azure-n-series-general-availability-on-december-1/) with Tesla M60 GPU and Ubuntu OS 16.04.2 LTS.
 
 ### Creating anaconda environment ###
 

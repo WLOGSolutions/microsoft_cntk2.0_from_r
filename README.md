@@ -42,7 +42,7 @@ After those commands I had the newest CNTK installed in Anaconda environment cal
 I used GNU R version 3.3.2 that was shipped with Azure DSVM. To install packages run the following code from repository folder.
 
 ```sh
-Rscript.exe install_packages.R
+Rscript install_packages.R
 ```
 
 It will install necessary R packages in local folder `lib`. It should not interferre with your global R configuration.

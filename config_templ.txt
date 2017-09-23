@@ -1,1 +1,2 @@
 LogLevel: INFO
+python_path: ~/.conda/envs/cntk2.0/bin

@@ -15,6 +15,8 @@ args <- args_parser()
 data_path <- normalizePath(file.path(script_path, "..", "data"))
 work_path <- normalizePath(file.path(script_path, "..", "work"))
 
+device <- args$get("device", required = FALSE, default = "cpu")
+
 library(cntkR)
 
 cntk_initialize(python_path = config$python)
@@ -35,8 +37,9 @@ create_reader <- function(path, is_training, input_dim, label_dim) {
 
 simple_mnist <- function(train_path, test_path, tensorboard_logdir = NULL) {
     logging_set_trace_level("Error")
-#    try_set_default_device(gpu(0))
-    try_set_default_device(cpu())
+    try_set_default_device(switch(device,
+                                  cpu = cpu(),
+                                  gpu = gpu(0)))
 
     input_dim <- 784L
     num_output_classes <- 10L
@@ -58,7 +61,7 @@ simple_mnist <- function(train_path, test_path, tensorboard_logdir = NULL) {
                    shape = num_output_classes,
                    activation = activation_softmax())) %>%
         layer_sequential(scaled_input)
-    
+
     ce <- loss_cross_entropy_with_softmax(z, label)
 
     pe <- metric_classification_error(z, label)

@@ -39,13 +39,16 @@ After those commands I had the newest CNTK installed in Anaconda environment cal
 
 ### Installing R packages ###
 
-I used GNU R version 3.3.2 that was shipped with Azure DSVM. To install packages run the following code from repository folder.
+I have used:
 
+* [R](https://www.r-project.org/) in version 3.3.2 that was shipped with Azure DSVM.
+* [R Suite](https://github.com/WLOGSolutions/RSuite) in version [0.9-211](https://github.com/WLOGSolutions/RSuite/releases/tag/211)
+
+To install packages and build cntkR package run following commands
 ```sh
-Rscript.exe install_packages.R
+rsuite proj depsinst
+rsuite proj build
 ```
-
-It will install necessary R packages in local folder `lib`. It should not interferre with your global R configuration.
 
 ### Downloading datasets ###
 
@@ -60,10 +63,9 @@ In folder `data` you should find two files `Test-28x28_cntk_text.txt` and `Train
 
 ## Running CNTK from within R ##
 
-Scipt `mnist.R` contains my version of `SimpleMNIST.py`. Before running the script you should modify line 8 to point to your
-python installation. In the version I prepared this line looks like this
-```r
-my_python <- "~/.conda/envs/cntk2.0/bin"
+Scipt `mnist.R` contains my version of `SimpleMNIST.py`. Before running the script you should modify line 2 in file `config_templ.txt` to point to your python installation. In the version I prepared this line looks like this
+```
+python_path: ~/.conda/envs/cntk2.0/bin
 ```
 
 This path should work for you if you are following my post using Azure DSVM.
@@ -71,7 +73,7 @@ This path should work for you if you are following my post using Azure DSVM.
 Finally, we can run our R script using instruction
 
 ```sh
-Rscript mnist.R
+Rscript R/mnist.R
 ```
 
 Below you can see fitting process in progress - it takes around `0.7-1.0s` to perform one epoch (60 000 steps).
@@ -88,12 +90,15 @@ It takes around 23 seconds to build an MLP network and score it on test dataset.
 
 ### Power of GPU ###
 
-In script `mnist.R` in line 45 I set default device to be used. By default it is `gpu(0L)` which means Tesla M60 GPU. When you 
-switch to `cpu()` you will notice around **30x** slowdown!
+Script `mnist.R` accepts a parameter `device` that can take two values:
+
+* `cpu` - run computation on CPU (default)
+* `gpu` - run copuation on GPU (id = 0)
+
+On my machine GPU was Tesla M60 GPU. When you switch to `cpu()` you will notice around **30x** slowdown!
 
 Even more performance gain you can see calling `mnist_conv.R` script that implements Convolution Network that is more 
-computing intensive (check [ConvNet_MNIST.py](https://github.com/Microsoft/CNTK/blob/master/Examples/Image/Classification/ConvNet/Python/ConvNet_MNIST.py) for
-Python version). Below we present output of running this model using GPU. It takes around `3.7sec` for one epoch (60 000 steps). 
+computing intensive (check [ConvNet_MNIST.py](https://github.com/Microsoft/CNTK/blob/master/Examples/Image/Classification/ConvNet/Python/ConvNet_MNIST.py) forPython version). Below we present output of running this model using GPU. It takes around `3.7sec` for one epoch (60 000 steps). 
 **Running this model on CPU is hopeless.**
 
 ![cntk_R_console_2.PNG](https://github.com/WLOGSolutions/microsoft_cntk2.0_from_r/blob/master/img/cntkr_R_console_2.PNG)

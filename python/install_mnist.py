@@ -7,10 +7,10 @@ if __name__ == "__main__":
     train = ut.load('http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz',
         'http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz', 60000)
     print ('Writing train text file...')
-    ut.savetxt(r'./data/Train-28x28_cntk_text.txt', train)
+    ut.savetxt(r'../data/Train-28x28_cntk_text.txt', train)
     print ('Done.')
     test = ut.load('http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz',
         'http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz', 10000)
     print ('Writing test text file...')
-    ut.savetxt(r'./data/Test-28x28_cntk_text.txt', test)
+    ut.savetxt(r'../data/Test-28x28_cntk_text.txt', test)
     print ('Done.')

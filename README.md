@@ -56,6 +56,7 @@ From CNTK github [examples repo](https://github.com/Microsoft/CNTK/tree/master/E
 two python scripts that download and prepare datasets. To download and prepare datasets just issue the instruction.
 
 ```sh
+cd python
 python install_mnist.py
 ```
 
@@ -64,6 +65,7 @@ In folder `data` you should find two files `Test-28x28_cntk_text.txt` and `Train
 ## Running CNTK from within R ##
 
 Scipt `mnist.R` contains my version of `SimpleMNIST.py`. Before running the script you should modify line 2 in file `config_templ.txt` to point to your python installation. In the version I prepared this line looks like this
+
 ```
 python_path: ~/.conda/envs/cntk2.0/bin
 ```

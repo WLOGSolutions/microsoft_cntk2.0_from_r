@@ -1,0 +1,6 @@
+RSuiteVersion: 0.9.211
+RVersion: 3.3
+Project: microsoft_cntk2.0_from_r
+Repositories: MRAN[2017-09-23]
+Artifacts: config_templ.txt
+ZipVersion: 0.1

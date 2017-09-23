@@ -1,0 +1,16 @@
+Package: cntkR
+Type: Package
+Title: R API to Microsoft CNTK 2.0 library
+Version: 0.1.1
+Author: Wit Jakuczun
+Maintainer: Wit Jakuczun <w.jakuczun@wlogsolutions.com>
+Description: Package gives access to Microsoft's CNTK 2.0 library. Access is
+    given via reticulate package.
+License: MIT
+LazyData: TRUE
+Depends:
+	logging,
+    reticulate,
+    magrittr,
+    purrr
+RoxygenNote: 5.0.1
